@@ -3,12 +3,12 @@ import HomeScreen from './src/screens/HomeScreen';
 import ComponentsScreen from './src/screens/ComponentsScreen';
 import ListScreen from './src/screens/ListScreen';
 
-//Similar purpose to React-Router determines what compnents can be shown
+//Lists the components that can be shown/navigated to (similar purpose to React-Router); initialRouteName: 'Home' - determines what component is shown on page load
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
     Components: ComponentsScreen,
-    ListScreen: ListScreen
+    List: ListScreen
   },
   {
     initialRouteName: 'Home',
