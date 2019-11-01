@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, Button, TouchableOpacity } from 'react-native';
 
-//Renders content for this component
+//Renders content for this component - uses the navigation prop + string of the component name defined in App.js to show components
 const HomeScreen = (props) => {
   return(
     <View>
@@ -25,6 +25,10 @@ const HomeScreen = (props) => {
         <Button
           onPress={()=> props.navigation.navigate('Color')}
           title="Go to Color Demo"
+        />
+        <Button
+          onPress={()=> props.navigation.navigate('Square')}
+          title="Go to Square Screen"
         />
     </View>
   )
