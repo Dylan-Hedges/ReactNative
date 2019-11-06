@@ -1,48 +1,44 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import ColorCounter from '../Components/ColorCounter';
 
-const SquareScreen = () => {
-  //Increment red, blue or green by an RGB value of 15
-  const COLOR_INCREMENT = 15;
-  //Initalises state for colors
-  const [red, setRed] = useState(0);
-  const [green, setGreen] = useState(0);
-  const [blue, setBlue] = useState(0);
+//Increment red, blue or green by an RGB value of 15
+const COLOR_INCREMENT = 15;
 
-  //Validation - prevents red, green and blue exceeding 255 or 0 RGB values
-  const setColor = (color, change) => {
-    switch(color){
-      case 'red':
-        red + change > 255 || red + change < 0 ? null: setRed(red + change);
-        console.log(red)
-        return;
-      case 'blue':
-        blue + change > 255 || blue + change < 0 ? null: setBlue(blue + change);
-        console.log(blue)
-        return;
-      case 'green':
-        green + change > 255 || green + change < 0 ? null: setGreen(green + change);
-        console.log(green)
-        return;
-      default:
-        return;
-    }
+//Reducer function - returns an object to be used as the new state (copies the state object, pastes it into a new object, updates it, returns updated object to be used as new state )
+const reducer = (state, action) => {
+  switch(action.colorToChange){
+    case 'red':
+      //Updates state for red - ...state makes a copy of state obect, then pastes it to the new return{ } object, then deletes & replaces the red: property with red: state.red + action.amount, does not mutate state directly
+      return {...state, red: state.red + action.amount}
+    case 'green':
+      return {...state, green: state.green + action.amount}
+    case 'blue':
+      return {...state, blue: state.blue + action.amount}
+    default:
+      return;
   }
+};
 
+const SquareScreen = () => {
+  //Initalises state - sets colors and inital values in the state object
+  const [state, dispatch] = useReducer(reducer, {red: 0, green: 0, blue: 0});
+  //Destructures & saves the values of red, green and blue from state
+  const { red, green, blue} = state;
+  //passes object to reducer as 2nd argument (action)
   return(
     <View>
       <ColorCounter
-       onIncrease={() => setColor('red', COLOR_INCREMENT)}
-       onDecrease={() => setColor('red', -1 * COLOR_INCREMENT)}
+       onIncrease={() => dispatch({colorToChange: 'red', amount: COLOR_INCREMENT})}
+       onDecrease={() => dispatch({colorToChange: 'red', amount: -1 * COLOR_INCREMENT})}
        color='Red '/>
       <ColorCounter
-        onIncrease={() => setColor('blue', COLOR_INCREMENT)}
-        onDecrease={() => setColor('blue', -1 * COLOR_INCREMENT)}
+        onIncrease={() => dispatch({colorToChange: 'blue', amount: COLOR_INCREMENT})}
+        onDecrease={() => dispatch({colorToChange: 'blue', amount: -1 * COLOR_INCREMENT})}
         color='Blue'/>
       <ColorCounter
-        onIncrease={() => setColor('green', COLOR_INCREMENT)}
-        onDecrease={() => setColor('green', -1 * COLOR_INCREMENT)}
+        onIncrease={() => dispatch({colorToChange: 'green', amount: COLOR_INCREMENT})}
+        onDecrease={() => dispatch({colorToChange: 'green', amount: -1 * COLOR_INCREMENT})}
         color='Green'/>
        <View  style={{height: 150, width: 150, backgroundColor:`rgb(${red},${green},${blue})`}}/>
     </View>
