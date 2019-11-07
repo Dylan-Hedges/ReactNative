@@ -9,14 +9,20 @@ const COLOR_INCREMENT = 15;
 const reducer = (state, action) => {
   switch(action.colorToChange){
     case 'red':
-      //Updates state for red - ...state makes a copy of state obect, then pastes it to the new return{ } object, then deletes & replaces the red: property with red: state.red + action.amount, does not mutate state directly
-      return {...state, red: state.red + action.amount}
+      //Updates state for red - first performs validation check using a ternary operator, if the current value of red (state.red) + the incrementor (action.amount) is > 255 or < 0 then do nothing & just return state, otherwise update state, ""...state" makes a copy of state obect, pastes it to the new { } object, replaces the red: property with "red: state.red + action.amount" (does not mutate state directly), the object is then returned which acts as the new state
+      return state.red + action.amount > 255 || state.red + action.amount < 0
+      ? state
+      : {...state, red: state.red + action.amount};
     case 'green':
-      return {...state, green: state.green + action.amount}
+      return state.green + action.amount > 255 || state.green + action.amount < 0
+      ? state
+      :  {...state, green: state.green + action.amount};
     case 'blue':
-      return {...state, blue: state.blue + action.amount}
+      return state.blue + action.amount > 255 || state.blue + action.amount < 0
+      ? state
+      : {...state, blue: state.blue + action.amount };
     default:
-      return;
+      return state;
   }
 };
 
