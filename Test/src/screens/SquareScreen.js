@@ -9,7 +9,7 @@ const COLOR_INCREMENT = 15;
 const reducer = (state, action) => {
   switch(action.type){
     case 'change_red':
-      //Updates state for red - first performs validation check using a ternary operator, if the current value of red (state.red) + the incrementor (action.amount) is > 255 or < 0 then do nothing & just return state, otherwise update state, ""...state" makes a copy of state obect, pastes it to the new { } object, replaces the red: property with "red: state.red + action.amount" (does not mutate state directly), the object is then returned which acts as the new state
+      //Updates state for red - first performs validation check using a ternary operator, if the current value of red (state.red) + the incrementor (action.payload) is > 255 or < 0 then do nothing & just return state, otherwise update state, ""...state" makes a copy of state obect, pastes it to the new { } object, replaces the red: property with "red: state.red + action.payload" (does not mutate state directly), the object is then returned which acts as the new state
       return state.red + action.payload > 255 || state.red + action.payload < 0
       ? state
       : {...state, red: state.red + action.payload};
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 const SquareScreen = () => {
   //Initalises state - sets colors and inital values in the state object
   const [state, dispatch] = useReducer(reducer, {red: 0, green: 0, blue: 0});
-  //Destructures & saves the values of red, green and blue from state
+  //Destructures & saves the values of red, green and blue from state to display on screen using <View />
   const { red, green, blue} = state;
   //passes object to reducer as 2nd argument (action)
   return(
