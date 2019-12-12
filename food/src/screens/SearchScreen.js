@@ -8,19 +8,26 @@ const SearchScreen = () => {
   const[term, setTerm] = useState('');
   //Creates a results state for the component - uses to display the results of the Yelp API request, setResults lets us update the results state
   const[results, setResults] = useState([]);
-
+  //Creates an error message start
+  const[errorMessage, setErrorMessage] = useState('');
   //Executes Axios request to Yelp API - uses async await to handle results returned from Yelp API (JSON)
   const searchApi = async () => {
-    //Makes the Axios request and saves the results to a variable - await waits for a result to be returned, params is a 2nd arugment that appends parameters to the BaseURL (check Yelp API for parameters)
-    const response = await yelp.get('/search', {
-      params: {
-        limit: 50,
-        term: term,
-        location: 'san jose'
-      }
-    });
-    //Saves the results (JSON) of the API request to the results state of this component (which is then displayed on screen using return())
-    setResults(response.data.businesses);
+    //Tries the Yelp API request
+    try{
+      //Makes the Axios request and saves the results to a variable - await waits for a result to be returned, params is a 2nd arugment that appends parameters to the BaseURL (check Yelp API for parameters)
+      const response = await yelp.get('/search', {
+        params: {
+          limit: 50,
+          term: term,
+          location: 'san jose'
+        }
+      });
+      //Saves the results (JSON) of the API request to the results state of this component (which is then displayed on screen using return())
+      setResults(response.data.businesses);
+    }catch(err){
+      //Displays a custom error message if an error is found (could also use the err variable which contains the full error message)
+      setErrorMessage('Something went wrong');
+    }
   }
 
   //Returns on screen elements
@@ -31,7 +38,7 @@ const SearchScreen = () => {
         onTermChange={newTerm => setTerm(newTerm)}
         onTermSubmit={() => searchApi()}
       />
-      <Text>SearchScreen </Text>
+      {errorMessage ? <Text>{errorMessage}</Text> : null }
       <Text>We have found {results.length} results</Text>
     </View>
   );
