@@ -11,6 +11,13 @@ const SearchScreen = () => {
   //Saves the varibles from the useResults hook (used in JSX below)
   const [searchApi, results, errorMessage] = useResults();
 
+  //Returns a group of restaurants by price - We are given an array of restaurants, in these restaurants Yelp uses $ to show restaurant price, e.g we pass in $ and it removes restaurants that arent priced at $
+  const filterResultsByPrice = (price) => {
+    return results.filter(result => {
+      return result.price === price;
+    });
+  };
+
   //Returns on screen elements
   return(
     <View>
@@ -21,9 +28,9 @@ const SearchScreen = () => {
       />
       {errorMessage ? <Text>{errorMessage}</Text> : null }
       <Text>We have found {results.length} results</Text>
-      <ResultsList title="Cost Effective"/>
-      <ResultsList title="Bit Pricier"/>
-      <ResultsList title="Big Spender" />
+      <ResultsList results={filterResultsByPrice('$')} title="Cost Effective"/>
+      <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier"/>
+      <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender" />
     </View>
   );
 };
