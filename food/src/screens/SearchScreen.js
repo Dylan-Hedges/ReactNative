@@ -5,7 +5,7 @@ import yelp from '../api/yelp';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
 
-const SearchScreen = () => {
+const SearchScreen = ({navigation}) => {
   //Creates a term state for this component - used by the search bar to make searches, setTerm lets us update the term state
   const[term, setTerm] = useState('');
   //Saves the varibles from the useResults hook (used in JSX below)
@@ -27,10 +27,10 @@ const SearchScreen = () => {
         onTermSubmit={() => searchApi(term)}
       />
       {errorMessage ? <Text>{errorMessage}</Text> : null }
-      <ScrollView>
-        <ResultsList results={filterResultsByPrice('$')} title="Cost Effective"/>
-        <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier"/>
-        <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender" />
+      <ScrollView navigation={navigation}>
+        <ResultsList navigation={navigation} results={filterResultsByPrice('$')} title="Cost Effective"/>
+        <ResultsList navigation={navigation} results={filterResultsByPrice('$$')} title="Bit Pricier"/>
+        <ResultsList navigation={navigation} results={filterResultsByPrice('$$$')} title="Big Spender" />
       </ScrollView>
     </>
   );
