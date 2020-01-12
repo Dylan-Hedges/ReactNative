@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import ResultsDetail from './ResultsDetail.js';
 
-//Renders list of returned restaurants on screen
+//Renders list of returned restaurants on screen - when tapped opens up restaurant details in a new component (passes the business id to the ResultsDetail component which uses the id to exectue an API request to the Yelp API)
 const ResultsList = ({title, results, navigation}) => {
   return(
     <View style={styles.container}>
@@ -15,8 +15,8 @@ const ResultsList = ({title, results, navigation}) => {
         keyExtractor={(result) => result.id}
         renderItem={({item}) => {
           return(
-            <TouchableOpacity onPress={() => navigation.navigate('ResultsShow')}>
-             <ResultsDetail result={item}/>
+            <TouchableOpacity onPress={() => navigation.navigate('ResultsShow', { id: item.id})}>
+              <ResultsDetail result={item}/>
             </TouchableOpacity>
           )
         }}
